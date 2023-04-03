@@ -17,9 +17,19 @@ body {
 
 .dot {
     position: absolute;
-    height: 10px;
-    width: 10px;
-    border: 1px solid rgb(52, 106, 206);
+    height: 20px;
+    width: 20px;
+    /* border: 1px solid rgba(19, 107, 207); */
+}
+
+.head-left {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.head-left {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .stop {

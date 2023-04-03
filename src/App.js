@@ -1,17 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css';
+import Swal from 'sweetalert2';
+import icon from './snake-icon.png';
 
 export default function App() {
-    const rows = 40;
-    const cols = 70;
-
-    const [snake, setSnake] = useState([[15, 11], [15, 12], [15, 13]]);
-    const [direction, setDirection] = useState(2);
+    const [snake, setSnake] = useState([[20, 30], [20, 31], [20, 32], [20, 33], [20, 34], [20, 35]]);
+    const [direction, setDirection] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
     const [running, setRunning] = useState(true);
-    const [changing, setChanging] = useState(false);
+    const [food, setFood] = useState([-1, -1]);
 
-    let newX = 0, newY = 0;
+    const rows = 20, cols = 35;
+    let newX = 0, newY = 0, clicking = false, prevDirection = direction;
+
+    const changeDirection = (newDirection) => {
+        const val = prevDirection + newDirection;
+        if (val === 2 || val === 4) {
+            return;
+        }
+        setDirection(newDirection);
+        prevDirection = newDirection;
+    };
 
     const move = () => {
         switch (direction) {
@@ -31,25 +40,61 @@ export default function App() {
         let [headX, headY] = snake[0];
         let [newHeadX, newHeadY] = [headX + newX, headY + newY];
 
-        // if (find(snake.shift(), newHeadX, newHeadY)) {
-        //     setRunning(false);
-        //     return;
-        // }
-
         if (newHeadX < 0) newHeadX = rows - 1;
         if (newHeadY < 0) newHeadY = cols - 1;
         if (newHeadX >= rows) newHeadX = 0;
         if (newHeadY >= cols) newHeadY = 0;
 
+        if (find(snake, newHeadX, newHeadY)) {
+            gameOver();
+            return;
+        }
+
         snake.unshift([newHeadX, newHeadY]);
-        snake.pop();
+        if (newHeadX === food[0] && newHeadY === food[1]) {
+            generateFood();
+        }
+        else snake.pop();
         setSnake([...snake]);
     }
     const stop = () => {
         setRunning((running) => !running);
     }
+    const setButtons = (e) => {
+        if (clicking) return;
+        clicking = true;
+        setTimeout(() => clicking = false, 1);
+        switch (e.key) {
+            case 'a':
+                changeDirection(0);
+                break;
+            case 'w':
+                changeDirection(1);
+                break;
+            case 'd':
+                changeDirection(2);
+                break;
+            case 's':
+                changeDirection(3);
+                break;
+        }
+    };
+    const gameOver = () => {
+        setRunning(false);
+        Swal.fire({
+            title: `Game over! Your score is ${15}`,
+            iconHtml: `<img src="${icon}">`,
+            showCancelButton: true,
+            confirmButtonText: 'Play again',
+            cancelButtonText: 'Cancel',
+            background: 'black',
+            color: 'white',
+            customClass: {
 
-    const generateFoodPos = () => {
+            }
+        });
+    }
+    const generateFood = () => {
         let x, y;
         do {
             x = Math.floor(Math.random() * rows);
@@ -57,50 +102,29 @@ export default function App() {
         } while (find(snake, x, y));
         setFood([x, y]);
     }
-    const [food, setFood] = useState([-1, -1]);
-
     const play = () => {
         const id = setInterval(() => {
             move();
         }, 100);
         setIntervalId(id);
-        setChanging(false);
     }
 
     useEffect(() => {
-        generateFoodPos();
-        window.addEventListener("keydown", e => {
-            e.preventDefault();
-
-            switch (e.key) {
-                case 'a':
-                    setDirection(0);
-                    break;
-                case 'w':
-                    setDirection(1);
-                    break;
-                case 'd':
-                    setDirection(2);
-                    break;
-                case 's':
-                    setDirection(3);
-                    break;
-            }
-            setTimeout(() => { }, 5);
-        });
+        window.addEventListener("keydown", setButtons);
+        generateFood();
     }, []);
 
 
     useEffect(() => {
         if (intervalId) {
             clearInterval(intervalId);
-            if (!running || changing) return;
-            setChanging(true);
-            move();
+            setIntervalId(null);
+            if (running) move();
         }
-        play();
+        if (running) play();
 
     }, [direction, running]);
+
 
     return (
         <>
@@ -119,7 +143,7 @@ function Grid({ snake, food, rows, cols }) {
     for (let i = 0; i < rows; i++) {
         grid[i] = new Array(cols);
         for (let j = 0; j < cols; j++) {
-            grid[i][j] = <Dot x={i} y={j} snake={find(snake, i, j)} food={food[0] == i && food[1] == j} key={i + j} />
+            grid[i][j] = <Dot x={i} y={j} snake={find(snake, i, j)} food={food[0] === i && food[1] === j} key={i + j} />
         }
     }
 
@@ -140,7 +164,7 @@ function Dot({ x, y, snake, food }) {
     else if (food) {
         color = 'var(--food)';
     }
-    const posX = x * 10, posY = y * 10;
+    const posX = x * 20, posY = y * 20;
     return (
         <div style={{ top: posX, left: posY, backgroundColor: color }} className='dot'></div>
     )
@@ -148,8 +172,7 @@ function Dot({ x, y, snake, food }) {
 
 function find(list, i, j) {
     for (let [x, y] of list) {
-        if (x == i && y == j) return true;
+        if (x === i && y === j) return true;
     }
     return false;
 }
-
