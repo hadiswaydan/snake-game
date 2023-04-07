@@ -32,9 +32,16 @@ body {
     border-bottom-right-radius: 10px;
 }
 
+.score {
+    position: absolute;
+    left: 58%;
+    top: 11%;
+    color: white;
+}
+
 .stop {
     position: absolute;
-    left: 30%;
+    left: 50%;
     top: 14%;
     border: none;
     border-radius: 10px;

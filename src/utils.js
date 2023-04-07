@@ -1,4 +1,4 @@
-import icon from './snake-icon.png';
+
 
 export function find(list, i, j) {
     for (let [x, y] of list) {
@@ -21,15 +21,3 @@ export function getNewHead(snakeHead, newX, newY) {
 
 export const rows = 20, cols = 35;
 
-export const gameOverAlert = {
-    title: `Game over! Your score is ${15}`,
-    iconHtml: `<img src="${icon}">`,
-    showCancelButton: true,
-    confirmButtonText: 'Play again',
-    cancelButtonText: 'Cancel',
-    background: 'black',
-    color: 'white',
-    customClass: {
-
-    }
-};

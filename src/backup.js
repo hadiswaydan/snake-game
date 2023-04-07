@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import './App.css';
 import Swal from 'sweetalert2';
 import icon from './snake-icon.png';
@@ -6,7 +6,6 @@ import icon from './snake-icon.png';
 export default function App() {
     const [snake, setSnake] = useState([[20, 30], [20, 31], [20, 32]]);
     const [direction, setDirection] = useState(0);
-    const [intervalId, setIntervalId] = useState(null);
     const [running, setRunning] = useState(true);
     const [food, setFood] = useState([-1, -1]);
 
@@ -23,7 +22,6 @@ export default function App() {
     };
 
     const move = () => {
-        console.log(snake);
         switch (direction) {
             case 0:
                 newY = -1;
@@ -61,6 +59,7 @@ export default function App() {
     const stop = () => {
         setRunning((running) => !running);
     }
+
     const setButtons = (e) => {
         if (clicking) return;
         clicking = true;
@@ -103,12 +102,6 @@ export default function App() {
         } while (find(snake, x, y));
         setFood([x, y]);
     }
-    const play = () => {
-        const id = setInterval(() => {
-            move();
-        }, 100);
-        setIntervalId(id);
-    }
 
     useEffect(() => {
         window.addEventListener("keydown", setButtons);
@@ -117,14 +110,12 @@ export default function App() {
 
 
     useEffect(() => {
-        if (intervalId) {
-            clearInterval(intervalId);
-            setIntervalId(null);
-            if (running) move();
+        if (running) {
+            setTimeout(() => {
+                move(snake);
+            }, 100);
         }
-        if (running) play();
-
-    }, [direction, running]);
+    }, [snake]);
 
 
     return (
