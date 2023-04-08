@@ -6,7 +6,7 @@ import { resetSnakePosition, setSnakePosition } from '../reducers/snakeReducer';
 import { setDirection, addScore, run, stop, reset } from '../reducers/gameReducer';
 import Grid from './Grid';
 import Swal from 'sweetalert2';
-import icon from '../snake-icon.png';
+import icon from '../assets/snake-icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAppleWhole, faTrophy, faPause, faPlay, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import '../App.css';
@@ -25,7 +25,7 @@ export default function App() {
     let newX = 0, newY = 0, clicking = false;
     const gameOverAlert = {
         title: `Game over! Your score is ${score}`,
-        iconHtml: `<img src="${icon} ">`,
+        iconHtml: `<img src="${icon}">`,
         showCancelButton: true,
         confirmButtonText: 'Play again',
         cancelButtonText: 'Cancel',
@@ -130,10 +130,10 @@ export default function App() {
 
     return (
         <>
-
+            <h1 className='title'>Snake Game</h1>
             <div className='scoreboard'>
-                <div style={{ position: 'absolute', left: 30 }}>{score} <FontAwesomeIcon icon={faAppleWhole} style={{ color: 'red' }} /></div>
-                <div style={{ position: 'absolute', left: 90 }}>{topScore} <FontAwesomeIcon icon={faTrophy} style={{ color: 'yellow' }} /></div>
+                <div style={{ position: 'absolute', left: 30 }}>{score} <FontAwesomeIcon icon={faAppleWhole} style={{ color: 'red', fontSize: '20px' }} /></div>
+                <div style={{ position: 'absolute', left: 120 }}>{topScore} <FontAwesomeIcon icon={faTrophy} style={{ color: 'yellow', fontSize: '20px' }} /></div>
                 <button className='control' onClick={onButtonClick}><FontAwesomeIcon icon={running ? faPause : isGameOver ? faRepeat : faPlay} /></button>
             </div>
             <h1 className='game-over'>{isGameOver && 'Game Over!'}</h1>

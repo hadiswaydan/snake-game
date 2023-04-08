@@ -11,7 +11,7 @@ export const Dot = React.memo(({ x, y, isSnake, isHead, isFood }) => {
         classes += 'food';
     }
     return (
-        <div style={{ top: x * 20, left: y * 20, }} className={classes}>
+        <div style={{ top: x * 30, left: y * 30, }} className={classes}>
         </div>
     )
 });

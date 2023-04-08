@@ -21,5 +21,5 @@ export function isSnakeHead(snake, i, j) {
     return snake[0][0] === i && snake[0][1] === j;
 }
 
-export const rows = 20, cols = 25;
+export const rows = 13, cols = 17;
 
