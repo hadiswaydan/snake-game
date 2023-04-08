@@ -1,5 +1,3 @@
-
-
 export function find(list, i, j) {
     for (let [x, y] of list) {
         if (x === i && y === j) return true;
@@ -19,5 +17,9 @@ export function getNewHead(snakeHead, newX, newY) {
     return [newHeadX, newHeadY];
 }
 
-export const rows = 20, cols = 35;
+export function isSnakeHead(snake, i, j) {
+    return snake[0][0] === i && snake[0][1] === j;
+}
+
+export const rows = 20, cols = 25;
 

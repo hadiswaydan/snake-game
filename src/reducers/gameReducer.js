@@ -4,6 +4,7 @@ const initialState = {
     direction: 0,
     prevDirection: 0,
     score: 0,
+    topScore: localStorage.getItem('topScore') || 0,
     running: true,
 };
 
@@ -19,6 +20,9 @@ const gameReducer = createSlice({
         },
         addScore: (state) => {
             state.score++;
+            if (state.score > state.topScore) {
+                state.topScore = state.score;
+            }
         },
         run: (state) => {
             state.running = true;
@@ -26,8 +30,9 @@ const gameReducer = createSlice({
         stop: (state) => {
             state.running = false;
         },
-        reset: (_) => initialState,
-
+        reset: (state) => {
+            return { ...initialState, topScore: state.topScore };
+        },
     }
 });
 

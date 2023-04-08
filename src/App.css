@@ -1,61 +1,84 @@
 body {
     background-color: rgb(20, 20, 20);
-    --background: rgb(40, 40, 40);
-    --snake: rgb(170, 170, 20);
-    --food: rgb(200, 100, 10);
+    --background: rgb(5, 50, 40);
+    --snake: rgb(10, 140, 230);
+    --head: rgb(10, 120, 210);
+    --food: #eb0a0a;
 }
-
 
 .container {
     position: absolute;
-    top: 20%;
-    left: 25%;
-    width: 700px;
+    top: 150px;
+    left: 30%;
+    width: 500px;
     height: 400px;
     background-color: var(--background);
+}
+
+.scoreboard {
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 20px;
+    background-color: rgb(4, 39, 31);
+    width: 500px;
+    height: 50px;
+    border-bottom: 1px solid rgb(30, 80, 10);
+    color: white;
+}
+
+.control {
+    position: absolute;
+    left: 230px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(20, 140, 50);
+    width: 50px;
+    height: 25px;
+    outline: none;
+    font-size: 15px;
+    color: white;
+}
+
+.game-over {
+    position: absolute;
+    top: 45%;
+    left: 43%;
+    color: rgb(190, 189, 189);
+    z-index: 1;
+}
+
+.control:hover {
+    background-color: rgb(10, 90, 30);
+}
+
+.control:active {
+    transform: scale(.96);
+}
+
+.snake {
+    background-color: var(--snake);
+}
+
+.head {
+    background-color: var(--head);
+}
+
+.food {
+    background-color: var(--food);
+    border-radius: 10px;
 }
 
 .dot {
     position: absolute;
     height: 20px;
     width: 20px;
-    /* border: 1px solid rgba(19, 107, 207); */
 }
 
-.head-left {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.head-left {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.score {
-    position: absolute;
-    left: 58%;
-    top: 11%;
-    color: white;
-}
-
-.stop {
-    position: absolute;
-    left: 50%;
-    top: 14%;
-    border: none;
-    border-radius: 10px;
-    background-color: red;
-    width: 80px;
-    height: 30px;
-    outline: none;
-    font-size: 15px;
-}
-
-.stop:hover {
-    background-color: rgb(194, 14, 14);
-}
-
-.stop:active {
-    transform: scale(.95);
+.d {
+    color: rgb(170, 15, 15);
 }
