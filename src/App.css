@@ -2,7 +2,7 @@ body {
     background-color: rgb(20, 20, 20);
     --background: rgb(5, 50, 40);
     --snake: rgb(10, 140, 230);
-    --head: rgb(10, 120, 210);
+    --head: rgb(25, 115, 190);
     --food: #eb0a0a;
 }
 

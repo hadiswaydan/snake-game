@@ -31,7 +31,7 @@ export default function App() {
         cancelButtonText: 'Cancel',
         background: 'black',
         color: 'white',
-        confirmButtonColor: '#07b01b',
+        confirmButtonColor: '#148C32',
         cancelButtonColor: '#d10808',
     };
 
@@ -69,7 +69,7 @@ export default function App() {
     const setupButtons = (e) => {
         if (clicking) return;
         clicking = true;
-        setTimeout(() => clicking = false, 1);
+        setTimeout(() => clicking = false, 50);
         switch (e.key) {
             case 'a':
             case 'A':
