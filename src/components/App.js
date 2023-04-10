@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { find, getNewHead } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { generateFood } from '../reducers/foodReducer';
@@ -7,9 +7,9 @@ import { setDirection, addScore, run, stop, reset } from '../reducers/gameReduce
 import Grid from './Grid';
 import Swal from 'sweetalert2';
 import icon from '../assets/snake-icon.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAppleWhole, faTrophy, faPause, faPlay, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import '../App.css';
+import { Scoreboard } from './Scoreboard';
+
 
 export default function App() {
 
@@ -21,8 +21,9 @@ export default function App() {
     const food = useSelector(state => state.food.position);
     const snake = useSelector(state => state.snake.positions);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
 
-    let newX = 0, newY = 0, clicking = false;
+    let newX = 0, newY = 0, clicking = false, moving = false;
     const gameOverAlert = {
         title: `Game over! Your score is ${score}`,
         iconHtml: `<img src="${icon}">`,
@@ -36,6 +37,7 @@ export default function App() {
     };
 
     const move = () => {
+        moving = true;
         switch (direction) {
             case 0:
                 newY = -1;
@@ -64,12 +66,13 @@ export default function App() {
         }
         else newSnake.pop();
         dispatch(setSnakePosition(newSnake));
+        moving = false;
     }
 
     const setupButtons = (e) => {
         if (clicking) return;
         clicking = true;
-        setTimeout(() => clicking = false, 50);
+        setTimeout(() => clicking = false, 10);
         switch (e.key) {
             case 'a':
             case 'A':
@@ -94,7 +97,7 @@ export default function App() {
         }
     };
     const gameOver = () => {
-        dispatch(stop());
+        dispatch(stop(true));
         setIsGameOver(true);
         localStorage.setItem('topScore', topScore);
         Swal.fire(gameOverAlert).then((resp) => {
@@ -109,33 +112,40 @@ export default function App() {
         setIsGameOver(false);
     }
 
-    const onButtonClick = () => {
+    const onControlClick = useCallback(() => {
         if (isGameOver) {
             playAgain();
             return;
         }
         if (running) dispatch(stop());
         else dispatch(run());
-    }
+    }, [isGameOver, running]);
+
 
     useEffect(() => {
         window.addEventListener("keydown", setupButtons);
         dispatch(generateFood(snake));
+
     }, []);
 
     useEffect(() => {
-        if (running) setTimeout(move, 100);
-    }, [snake, running]);
+        if (!running) return;
+        
+        setTimeout(move, 100);
+    }, [snake, running,]);
+
+    // useEffect(() => {
+    //     if (moving) return;
+    //     clearTimeout(timeoutId);
+    //     setTimeoutId(null);
+    //     move();
+    // }, [direction]);
 
 
     return (
         <>
             <h1 className='title'>Snake Game</h1>
-            <div className='scoreboard'>
-                <div style={{ position: 'absolute', left: 30 }}>{score} <FontAwesomeIcon icon={faAppleWhole} style={{ color: 'red', fontSize: '20px' }} /></div>
-                <div style={{ position: 'absolute', left: 120 }}>{topScore} <FontAwesomeIcon icon={faTrophy} style={{ color: 'yellow', fontSize: '20px' }} /></div>
-                <button className='control' onClick={onButtonClick}><FontAwesomeIcon icon={running ? faPause : isGameOver ? faRepeat : faPlay} /></button>
-            </div>
+            <Scoreboard isGameOver={isGameOver} onControlClick={onControlClick} running={running} score={score} topScore={topScore} />
             <h1 className='game-over'>{isGameOver && 'Game Over!'}</h1>
             <div className='container'>
                 <Grid snake={snake} food={food} />

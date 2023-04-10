@@ -1,3 +1,10 @@
+import moveSoundSrc from './assets/move.mp3';
+import eatSoundSrc from './assets/eat.mp3';
+import dieSoundSrc from './assets/die.mp3';
+import { Howl } from 'howler';
+
+export const rows = 13, cols = 17;
+
 export function find(list, i, j) {
     for (let [x, y] of list) {
         if (x === i && y === j) return true;
@@ -21,5 +28,19 @@ export function isSnakeHead(snake, i, j) {
     return snake[0][0] === i && snake[0][1] === j;
 }
 
-export const rows = 13, cols = 17;
+
+export const moveSound = new Howl({
+    src: moveSoundSrc,
+    autoplay: false,
+});
+
+export const eatSound = new Howl({
+    src: eatSoundSrc,
+    autoplay: false,
+})
+
+export const dieSound = new Howl({
+    src: dieSoundSrc,
+    autoplay: false,
+});
 

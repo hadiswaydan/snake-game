@@ -101,4 +101,5 @@ body {
     top: 15px;
     left: 36%;
     color: var(--font);
+    user-select: none;
 }
