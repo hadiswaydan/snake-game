@@ -21,9 +21,8 @@ export default function App() {
     const food = useSelector(state => state.food.position);
     const snake = useSelector(state => state.snake.positions);
     const [isGameOver, setIsGameOver] = useState(false);
-    const [timeoutId, setTimeoutId] = useState(null);
 
-    let newX = 0, newY = 0, clicking = false, moving = false;
+    let newX = 0, newY = 0, clicking = false;
     const gameOverAlert = {
         title: `Game over! Your score is ${score}`,
         iconHtml: `<img src="${icon}">`,
@@ -37,7 +36,6 @@ export default function App() {
     };
 
     const move = () => {
-        moving = true;
         switch (direction) {
             case 0:
                 newY = -1;
@@ -66,35 +64,38 @@ export default function App() {
         }
         else newSnake.pop();
         dispatch(setSnakePosition(newSnake));
-        moving = false;
     }
 
     const setupButtons = (e) => {
         if (clicking) return;
         clicking = true;
-        setTimeout(() => clicking = false, 10);
+        setTimeout(() => clicking = false, 50);
+        let newDir;
         switch (e.key) {
             case 'a':
             case 'A':
             case 'ArrowLeft':
-                dispatch(setDirection(0));
+                newDir = 0;
                 break;
             case 'w':
             case 'W':
             case 'ArrowUp':
-                dispatch(setDirection(1));
+                newDir = 1;
                 break;
             case 'd':
             case 'D':
             case 'ArrowRight':
-                dispatch(setDirection(2));
+                newDir = 2;
                 break;
             case 's':
             case 'S':
             case 'ArrowDown':
-                dispatch(setDirection(3));
+                newDir = 3;
                 break;
+            default:
+                return;
         }
+        dispatch(setDirection(newDir));
     };
     const gameOver = () => {
         dispatch(stop(true));
@@ -125,21 +126,12 @@ export default function App() {
     useEffect(() => {
         window.addEventListener("keydown", setupButtons);
         dispatch(generateFood(snake));
-
     }, []);
 
     useEffect(() => {
         if (!running) return;
-        
         setTimeout(move, 100);
-    }, [snake, running,]);
-
-    // useEffect(() => {
-    //     if (moving) return;
-    //     clearTimeout(timeoutId);
-    //     setTimeoutId(null);
-    //     move();
-    // }, [direction]);
+    }, [running, snake]);
 
 
     return (

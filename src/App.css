@@ -1,7 +1,7 @@
 body {
     background-color: rgb(20, 20, 20);
     font-family: 'Public Pixel';
-    --background: rgb(10, 60, 30);
+    --background: rgb(10, 70, 20);
     --snake: rgb(10, 140, 230);
     --head: rgb(25, 115, 190);
     --food: #eb0a0a;
