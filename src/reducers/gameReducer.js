@@ -3,7 +3,6 @@ import { eatSound, moveSound, dieSound } from '../utils';
 
 const initialState = {
     direction: 0,
-    prevDirection: 0,
     score: 0,
     topScore: localStorage.getItem('topScore') || 0,
     running: true,
@@ -17,10 +16,9 @@ const gameReducer = createSlice({
         setDirection: (state, action) => {
             if (!state.running) return;
             const newDirection = action.payload;
-            if (newDirection === state.prevDirection) return;
-            if ([2, 4].includes(newDirection + state.prevDirection)) return;
+            if (newDirection === state.direction) return;
+            if ([2, 4].includes(newDirection + state.direction)) return;
             state.direction = newDirection;
-            state.prevDirection = newDirection;
             if (!state.muted) moveSound.play();
         },
         addScore: (state) => {

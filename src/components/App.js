@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { find, getNewHead } from '../utils';
+import { find, getNewHead, getDirectionFromKey, useInterval } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { generateFood } from '../reducers/foodReducer';
 import { resetSnakePosition, setSnakePosition } from '../reducers/snakeReducer';
@@ -21,8 +21,9 @@ export default function App() {
     const food = useSelector(state => state.food.position);
     const snake = useSelector(state => state.snake.positions);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [moved, setMoved] = useState(null);
 
-    let newX = 0, newY = 0, clicking = false;
+    let clicking = false;
     const gameOverAlert = {
         title: `Game over! Your score is ${score}`,
         iconHtml: `<img src="${icon}">`,
@@ -36,21 +37,8 @@ export default function App() {
     };
 
     const move = () => {
-        switch (direction) {
-            case 0:
-                newY = -1;
-                break;
-            case 1:
-                newX = -1;
-                break;
-            case 2:
-                newY = 1;
-                break;
-            case 3:
-                newX = 1;
-                break;
-        }
-        let [newHeadX, newHeadY] = getNewHead(snake[0], newX, newY);
+        if (!running) return;
+        let [newHeadX, newHeadY] = getNewHead(snake[0], direction);
         let newSnake = snake.slice();
         if (find(newSnake, newHeadX, newHeadY)) {
             gameOver();
@@ -68,32 +56,10 @@ export default function App() {
 
     const setupButtons = (e) => {
         if (clicking) return;
-        clicking = true;
-        setTimeout(() => clicking = false, 50);
-        let newDir;
-        switch (e.key) {
-            case 'a':
-            case 'A':
-            case 'ArrowLeft':
-                newDir = 0;
-                break;
-            case 'w':
-            case 'W':
-            case 'ArrowUp':
-                newDir = 1;
-                break;
-            case 'd':
-            case 'D':
-            case 'ArrowRight':
-                newDir = 2;
-                break;
-            case 's':
-            case 'S':
-            case 'ArrowDown':
-                newDir = 3;
-                break;
-            default:
-                return;
+        let newDir = getDirectionFromKey(e.key);
+        if (newDir !== direction) {
+            clicking = true;
+            setTimeout(() => clicking = false, 50);
         }
         dispatch(setDirection(newDir));
     };

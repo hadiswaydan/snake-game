@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    positions: [[ 5 , 8], [5, 9], [5, 10]],
+    positions: [[5, 8], [5, 9], [5, 10]],
 };
 
 export const snakeReducer = createSlice({
