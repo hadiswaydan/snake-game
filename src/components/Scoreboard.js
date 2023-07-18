@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAppleWhole, faTrophy, faPause, faPlay, faRepeat, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleSound } from '../reducers/gameReducer';
+import { toggleSound } from '../redux/gameReducer';
 
 export const Scoreboard = React.memo(({ score, topScore, running, isGameOver, onControlClick }) => {
 

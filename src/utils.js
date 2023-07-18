@@ -2,7 +2,6 @@ import moveSoundSrc from './assets/move.mp3';
 import eatSoundSrc from './assets/eat.mp3';
 import dieSoundSrc from './assets/die.mp3';
 import { Howl } from 'howler';
-import { useEffect, useRef } from 'react';
 
 export const rows = 13, cols = 17;
 
@@ -83,29 +82,8 @@ export function getDirectionFromKey(key) {
             newDir = 3;
             break;
         default:
-            newDir = '';
+            newDir = -1;
     }
     return newDir;
-}
-
-
-export function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-        function tick() {
-            savedCallback.current();
-        }
-        if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
 }
 
