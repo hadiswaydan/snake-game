@@ -14,9 +14,9 @@
 
 ### Technologies
 
--[React](https://reactjs.org/)
--[Redux](https://redux.js.org/)
--[Howler](https://www.npmjs.com/package/howler)
--[SweetAlert2](https://sweetalert2.github.io/v9.html)
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [Howler](https://www.npmjs.com/package/howler)
+- [SweetAlert2](https://sweetalert2.github.io/v9.html)
 
 ##### Feel free to reuse or modify the code/project for your personal or professinal purposes
