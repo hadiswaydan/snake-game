@@ -2,7 +2,6 @@ import moveSoundSrc from './assets/move.mp3';
 import eatSoundSrc from './assets/eat.mp3';
 import dieSoundSrc from './assets/die.mp3';
 import { Howl } from 'howler';
-import { useEffect, useRef } from 'react';
 
 export const rows = 13, cols = 17;
 
@@ -60,52 +59,32 @@ export function isSnakeHead(snake, i, j) {
 }
 
 export function getDirectionFromKey(key) {
-    let newDir;
-    switch (key) {
-        case 'a':
-        case 'A':
-        case 'ArrowLeft':
-            newDir = 0;
-            break;
-        case 'w':
-        case 'W':
-        case 'ArrowUp':
-            newDir = 1;
-            break;
-        case 'd':
-        case 'D':
-        case 'ArrowRight':
-            newDir = 2;
-            break;
-        case 's':
-        case 'S':
-        case 'ArrowDown':
-            newDir = 3;
-            break;
-        default:
-            newDir = '';
-    }
-    return newDir;
+  let newDir;
+  switch (key) {
+      case 'a':
+      case 'A':
+      case 'ArrowLeft':
+          newDir = 0;
+          break;
+      case 'w':
+      case 'W':
+      case 'ArrowUp':
+          newDir = 1;
+          break;
+      case 'd':
+      case 'D':
+      case 'ArrowRight':
+          newDir = 2;
+          break;
+      case 's':
+      case 'S':
+      case 'ArrowDown':
+          newDir = 3;
+          break;
+      default:
+          newDir = -1;
+  }
+  return newDir;
 }
 
-
-export function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-        function tick() {
-            savedCallback.current();
-        }
-        if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
-}
 
