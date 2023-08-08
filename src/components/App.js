@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { find, getNewHead, getDirectionFromKey } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { generateFood } from "../reducers/foodReducer";
-import { resetSnakePosition, setSnakePosition } from "../reducers/snakeReducer";
+import { generateFood } from "../redux/foodReducer";
+import { resetSnakePosition, setSnakePosition } from "../redux/snakeReducer";
 import {
   setDirection,
   addScore,
   run,
   stop,
   reset,
-} from "../reducers/gameReducer";
+} from "../redux/gameReducer";
 import Grid from "./Grid";
 import Swal from "sweetalert2";
 import icon from "../assets/snake-icon.png";
