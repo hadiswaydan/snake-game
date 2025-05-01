@@ -1,14 +1,14 @@
 <div align="center">
 <h2>Snake Game</h2>
 
-### <a href="https://swaymax1.github.io/snake-game/">Classis snake game in react </a>
+### <a href="https://hadiswaydan.github.io/snake-game/">Classis snake game in react </a>
 </div>
 
-### <a href="https://swaymax1.github.io/snake-game//">live demo</a>
+### <a href="https://hadiswaydan.github.io/snake-game/">live demo</a>
 
 ### Running in your local
 
-- `git clone https://github.com/swaymax1/snake-game`
+- `git clone https://github.com/hadiswaydan/snake-game`
 - `npm install` (after navigating inside the directory)
 - `npm start`
 
