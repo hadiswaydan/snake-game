@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { find, getNewHead, getDirectionFromKey } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { generateFood } from "../redux/foodReducer";
@@ -26,7 +26,7 @@ export default function App() {
   const snake = useSelector((state) => state.snake.positions);
   const [isGameOver, setIsGameOver] = useState(false);
 
-  let clicking = false;
+  const directionChangedRef = useRef(false);
   const gameOverAlert = {
     title: `Game over! Your score is ${score}`,
     iconHtml: `<img src="${icon}">`,
@@ -53,15 +53,15 @@ export default function App() {
       dispatch(addScore());
     } else newSnake.pop();
     dispatch(setSnakePosition(newSnake));
+    directionChangedRef.current = false;
   };
 
   const setupButtons = (e) => {
-    if (clicking) return;
+    if (directionChangedRef.current) return;
     let newDir = getDirectionFromKey(e.key);
     if (newDir === -1) return;
     dispatch(setDirection(newDir));
-    clicking = true;
-    setTimeout(() => (clicking = false), 65);
+    directionChangedRef.current = true;
   };
 
   const gameOver = () => {
